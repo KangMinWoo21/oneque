@@ -1,0 +1,37 @@
+name: Task
+description: Track implementation, research, or operational work.
+title: "[Task]: "
+labels: ["type:task", "status:triage"]
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: What outcome should this task produce?
+    validations:
+      required: true
+  - type: textarea
+    id: checklist
+    attributes:
+      label: Checklist
+      description: Break the work into reviewable steps.
+      placeholder: |
+        - [ ] ...
+        - [ ] ...
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Link Notion pages, designs, meetings, or related issues.
+    validations:
+      required: false
+  - type: input
+    id: due
+    attributes:
+      label: Target date
+      description: Optional target date.
+      placeholder: YYYY-MM-DD
+    validations:
+      required: false

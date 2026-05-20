@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate project
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Validate package manifests
+        run: |
+          node -e "JSON.parse(require('fs').readFileSync('app/package.json','utf8'))"
+
+      - name: Syntax check app
+        run: |
+          node --check app/server.mjs
+          node --check app/src/app.js
+
+      - name: Syntax check scripts
+        run: |
+          node --check make_pitch_deck.js
+          node --check validate_pitch_deck.js
+
+      - name: Check required collaboration files
+        shell: bash
+        run: |
+          test -f CONTRIBUTING.md
+          test -f PROJECT_WORKFLOW.md
+          test -f SECURITY.md
+          test -f RELEASE.md
+          test -f .github/pull_request_template.md
+          test -f .github/CODEOWNERS

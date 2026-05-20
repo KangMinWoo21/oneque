@@ -1,0 +1,18 @@
+# Default reviewers for all changes.
+# Replace @your-org/maintainers after the GitHub repo/team exists.
+* @your-org/maintainers
+
+# Product docs and planning material.
+*.md @your-org/product
+docs/** @your-org/product
+notion-setup/** @your-org/product
+
+# App implementation.
+app/** @your-org/engineering
+
+# Presentation and output generation.
+make_pitch_deck.js @your-org/engineering
+validate_pitch_deck.js @your-org/engineering
+
+# GitHub operations and automation.
+.github/** @your-org/maintainers
