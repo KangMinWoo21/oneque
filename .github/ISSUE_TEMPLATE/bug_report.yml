@@ -1,60 +1,60 @@
-name: Bug report
-description: Report a reproducible defect.
-title: "[Bug]: "
+name: 버그 신고
+description: 재현 가능한 결함을 신고합니다.
+title: "[버그]: "
 labels: ["type:bug", "status:triage"]
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for reporting a bug. Keep the report factual and reproducible.
+        버그를 알려주셔서 감사합니다. 사실 위주로, 재현 가능하게 작성해 주세요.
   - type: textarea
     id: summary
     attributes:
-      label: Summary
-      description: What is broken?
-      placeholder: The app crashes when...
+      label: 요약
+      description: 무엇이 잘못되었나요?
+      placeholder: 앱이 특정 화면에서 멈춥니다...
     validations:
       required: true
   - type: textarea
     id: steps
     attributes:
-      label: Steps to reproduce
-      description: List the shortest path to reproduce.
+      label: 재현 방법
+      description: 문제를 재현하는 가장 짧은 경로를 적어 주세요.
       placeholder: |
-        1. Go to...
-        2. Click...
-        3. See...
+        1. ... 화면으로 이동
+        2. ... 버튼 클릭
+        3. ... 문제가 발생
     validations:
       required: true
   - type: textarea
     id: expected
     attributes:
-      label: Expected behavior
-      description: What should happen instead?
+      label: 기대 동작
+      description: 원래는 어떤 일이 일어나야 하나요?
     validations:
       required: true
   - type: textarea
     id: actual
     attributes:
-      label: Actual behavior
-      description: What happened?
+      label: 실제 동작
+      description: 실제로는 어떤 일이 일어났나요?
     validations:
       required: true
   - type: dropdown
     id: severity
     attributes:
-      label: Severity
+      label: 심각도
       options:
-        - P0 - production blocked
-        - P1 - critical workflow broken
-        - P2 - important but workaround exists
-        - P3 - minor polish
+        - P0 - 운영 환경 차단
+        - P1 - 핵심 흐름 깨짐
+        - P2 - 중요하지만 우회 가능
+        - P3 - 작은 개선
     validations:
       required: true
   - type: textarea
     id: evidence
     attributes:
-      label: Evidence
-      description: Screenshots, logs, console output, affected URLs, or files.
+      label: 증거
+      description: 스크린샷, 로그, 콘솔 출력, 관련 URL 또는 파일을 적어 주세요.
     validations:
       required: false

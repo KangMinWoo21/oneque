@@ -1,28 +1,28 @@
-name: Feature request
-description: Propose a user-facing improvement.
-title: "[Feature]: "
+name: 기능 제안
+description: 사용자에게 보이는 개선 사항을 제안합니다.
+title: "[기능]: "
 labels: ["type:feature", "status:triage"]
 body:
   - type: textarea
     id: problem
     attributes:
-      label: Problem
-      description: What user problem are we solving?
-      placeholder: Users need a way to...
+      label: 문제
+      description: 어떤 사용자 문제를 해결하려고 하나요?
+      placeholder: 사용자는 ...할 방법이 필요합니다.
     validations:
       required: true
   - type: textarea
     id: proposal
     attributes:
-      label: Proposal
-      description: Describe the smallest useful solution.
+      label: 제안
+      description: 가장 작고 유용한 해결책을 설명해 주세요.
     validations:
       required: true
   - type: textarea
     id: acceptance
     attributes:
-      label: Acceptance criteria
-      description: What must be true for this to be done?
+      label: 수용 기준
+      description: 완료되었다고 판단하려면 무엇이 참이어야 하나요?
       placeholder: |
         - [ ] ...
         - [ ] ...
@@ -31,11 +31,16 @@ body:
   - type: dropdown
     id: area
     attributes:
-      label: Area
+      label: 영역
       options:
-        - app
+        - web
+        - api
+        - db
+        - ai
+        - recommender
+        - shared
         - docs
-        - operations
+        - ops
         - design
         - growth
     validations:
@@ -43,10 +48,10 @@ body:
   - type: dropdown
     id: priority
     attributes:
-      label: Priority
+      label: 우선순위
       options:
-        - High
-        - Medium
-        - Low
+        - 높음
+        - 보통
+        - 낮음
     validations:
       required: true

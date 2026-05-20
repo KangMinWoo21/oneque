@@ -1,32 +1,32 @@
-# Security Policy
+# 보안 정책
 
-## Reporting
+## 신고 방법
 
-Do not open public GitHub issues for secrets, credentials, personal data exposure, or exploitable vulnerabilities.
+비밀값, 인증 정보, 개인정보 노출, 악용 가능한 취약점은 공개 GitHub 이슈로 올리지 않는다.
 
-Use a private channel agreed by the maintainers until GitHub private vulnerability reporting is enabled.
+GitHub의 비공개 취약점 신고 기능을 켜기 전까지는 관리자가 합의한 비공개 채널로 공유한다.
 
-## Secrets
+## 비밀값
 
-- Never commit API keys, tokens, certificates, or private credentials.
-- Store local secrets in ignored environment files.
-- Rotate any secret that may have been exposed.
+- API Key, 토큰, 인증서, 개인 인증 정보는 절대 커밋하지 않는다.
+- 로컬 비밀값은 git에서 무시되는 환경 파일에 보관한다.
+- 노출 가능성이 있는 비밀값은 즉시 교체한다.
 
-## Data Handling
+## 데이터 취급
 
-This workspace may contain business plans, documents, PDFs, and operational material. Treat them as private unless explicitly approved for public release.
+이 작업공간에는 사업계획서, 문서, PDF, 운영 자료가 포함될 수 있다. 공개 배포가 명시적으로 승인되기 전까지는 비공개 자료로 다룬다.
 
-Before sharing screenshots or logs:
+스크린샷이나 로그를 공유하기 전에는 다음을 제거한다.
 
-- Remove personal data.
-- Remove access tokens and URLs with credentials.
-- Remove private customer, partner, or financial details.
+- 개인정보
+- 접근 토큰과 인증 정보가 포함된 URL
+- 비공개 고객, 파트너, 재무 정보
 
-## Dependency Updates
+## 의존성 업데이트
 
-When dependencies are introduced later:
+나중에 의존성을 추가할 때는 다음 기준을 지킨다.
 
-- Prefer maintained packages.
-- Review install scripts.
-- Pin lockfiles.
-- Let CI run before merging.
+- 유지보수되는 패키지를 우선 사용한다.
+- 설치 스크립트를 확인한다.
+- lockfile을 함께 고정한다.
+- merge 전에 CI를 통과시킨다.

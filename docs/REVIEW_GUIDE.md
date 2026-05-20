@@ -1,44 +1,44 @@
-# Review Guide
+# 리뷰 가이드
 
-## What Reviewers Should Prioritize
+## 리뷰어가 우선 확인할 것
 
-1. Does the change solve the stated problem?
-2. Are edge cases handled?
-3. Is the implementation easy to maintain?
-4. Is the user experience clear?
-5. Are privacy, security, and data risks controlled?
-6. Is validation convincing?
+1. 변경 사항이 이슈의 문제를 실제로 해결하는가?
+2. 예외 상황이 처리되어 있는가?
+3. 구현을 유지보수하기 쉬운가?
+4. 사용자 경험과 화면 문구가 명확한가?
+5. 개인정보, 보안, 데이터 노출 위험이 통제되어 있는가?
+6. 검증 방법이 충분히 설득력 있는가?
 
-## Review Comment Style
+## 리뷰 코멘트 방식
 
-Use severity prefixes:
+심각도 접두어를 사용한다.
 
-- `[P0]` Must fix before merge.
-- `[P1]` Should fix before merge.
-- `[P2]` Should consider, but may be follow-up.
-- `[P3]` Optional polish.
+- `[P0]` merge 전에 반드시 고쳐야 한다.
+- `[P1]` merge 전에 고치는 것이 좋다.
+- `[P2]` 고려해야 하지만 후속 작업으로 남길 수 있다.
+- `[P3]` 선택적인 개선 사항이다.
 
-Good review comments include:
+좋은 리뷰 코멘트에는 다음이 포함된다.
 
-- The specific risk.
-- The exact file or behavior.
-- A suggested fix or question.
+- 구체적인 위험
+- 정확한 파일 또는 동작
+- 제안하는 수정 방향 또는 질문
 
-## When to Request Changes
+## 변경 요청이 필요한 경우
 
-Request changes when:
+다음 경우에는 변경 요청을 한다.
 
-- The PR can break a core workflow.
-- CI fails for a relevant reason.
-- Acceptance criteria are missing.
-- Sensitive data may be exposed.
-- The implementation is hard to safely maintain.
+- PR이 핵심 흐름을 깨뜨릴 수 있다.
+- 관련 있는 이유로 CI가 실패한다.
+- 수용 기준이 빠져 있다.
+- 민감한 데이터가 노출될 수 있다.
+- 구현을 안전하게 유지보수하기 어렵다.
 
-## When to Approve
+## 승인해도 되는 경우
 
-Approve when:
+다음 조건을 만족하면 승인한다.
 
-- The change is understandable.
-- Validation is adequate.
-- Known risks are documented.
-- Follow-up work is tracked.
+- 변경 내용을 이해할 수 있다.
+- 검증이 충분하다.
+- 알려진 위험이 문서화되어 있다.
+- 후속 작업이 추적되고 있다.

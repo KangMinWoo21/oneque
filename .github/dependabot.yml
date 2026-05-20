@@ -7,7 +7,7 @@ updates:
     open-pull-requests-limit: 5
     labels:
       - "type:chore"
-      - "area:app"
+      - "area:web"
       - "dependencies"
 
   - package-ecosystem: "github-actions"
