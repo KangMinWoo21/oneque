@@ -1,0 +1,90 @@
+# Canonical label set for the repository.
+# Apply these through GitHub UI, gh CLI, or a label sync action.
+
+- name: type:bug
+  color: d73a4a
+  description: Defect or regression.
+
+- name: type:feature
+  color: 0e8a16
+  description: User-facing improvement.
+
+- name: type:task
+  color: 1d76db
+  description: Implementation, research, or operational work.
+
+- name: type:docs
+  color: 0075ca
+  description: Documentation or content work.
+
+- name: type:chore
+  color: cfd3d7
+  description: Maintenance and housekeeping.
+
+- name: priority:high
+  color: b60205
+  description: Urgent or strategically important.
+
+- name: priority:medium
+  color: fbca04
+  description: Normal priority.
+
+- name: priority:low
+  color: 0e8a16
+  description: Low priority.
+
+- name: area:app
+  color: 5319e7
+  description: App code and user experience.
+
+- name: area:docs
+  color: 0075ca
+  description: Documentation and content.
+
+- name: area:ops
+  color: 6f42c1
+  description: Workflow, automation, and repository operations.
+
+- name: area:design
+  color: cc317c
+  description: UX, UI, and design system work.
+
+- name: area:growth
+  color: fbca04
+  description: Business, launch, and growth work.
+
+- name: status:triage
+  color: ededed
+  description: Needs clarification or prioritization.
+
+- name: status:ready
+  color: c2e0c6
+  description: Ready to start.
+
+- name: status:in-progress
+  color: bfdadc
+  description: Actively being worked.
+
+- name: status:review
+  color: d4c5f9
+  description: PR open or review needed.
+
+- name: status:blocked
+  color: e99695
+  description: Blocked by a dependency, decision, or missing input.
+
+- name: risk:high
+  color: b60205
+  description: High-risk change.
+
+- name: risk:medium
+  color: fbca04
+  description: Medium-risk change.
+
+- name: risk:low
+  color: 0e8a16
+  description: Low-risk change.
+
+- name: dependencies
+  color: 0366d6
+  description: Dependency updates.

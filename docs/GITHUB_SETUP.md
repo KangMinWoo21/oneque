@@ -39,6 +39,8 @@ If this is a solo repo, use your GitHub username instead.
 
 Create these labels in GitHub:
 
+The canonical machine-readable list lives in `.github/labels.yml`.
+
 | Label | Color | Purpose |
 | --- | --- | --- |
 | `type:bug` | `d73a4a` | Defect |
@@ -116,3 +118,9 @@ Use GitHub for execution and Notion for context:
 - Notion Decision Log -> PR links when decisions affect implementation.
 - GitHub issue -> PR -> CI -> review -> merge.
 - Release notes -> Notion project status update.
+
+## 8. Bootstrap Issues
+
+Create the operating setup issues from `docs/BOOTSTRAP_ISSUES.md`.
+
+These issues make the remaining repository setup visible instead of leaving it as tribal knowledge.
