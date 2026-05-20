@@ -1,18 +1,28 @@
-# Default reviewers for all changes.
-# Replace @your-org/maintainers after the GitHub repo/team exists.
+# GitHub 조직이 준비되면 placeholder 팀을 실제 팀 또는 사용자로 바꾼다.
 * @your-org/maintainers
 
-# Product docs and planning material.
+# 제품 정체성, 기획, 운영 규칙
+AI.md @your-org/product
+ci-cd-rules.md @your-org/product @your-org/engineering
 *.md @your-org/product
 docs/** @your-org/product
 notion-setup/** @your-org/product
 
-# App implementation.
+# 웹 앱. 현재 MVP는 app/을 사용하고, 목표 모노레포 구조는 apps/web/이다.
 app/** @your-org/engineering
+apps/web/** @your-org/engineering
 
-# Presentation and output generation.
+# API, AI, 추천 로직, 공통 패키지, DB
+apps/api/** @your-org/engineering
+packages/shared/** @your-org/engineering
+packages/ai/** @your-org/engineering
+packages/recommender/** @your-org/engineering
+infra/db/** @your-org/engineering @your-org/maintainers
+
+# 발표자료와 산출물 생성
 make_pitch_deck.js @your-org/engineering
 validate_pitch_deck.js @your-org/engineering
+outputs/** @your-org/product
 
-# GitHub operations and automation.
+# GitHub 운영과 자동화
 .github/** @your-org/maintainers

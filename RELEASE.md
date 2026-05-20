@@ -1,47 +1,47 @@
-# Release Process
+# 릴리스 절차
 
-This project uses small, reviewable releases.
+이 프로젝트는 작고 리뷰 가능한 단위로 릴리스한다.
 
-## Versioning
+## 버전 관리
 
-Use date-based release notes until the product needs semantic versioning:
+제품에 의미 기반 버전 관리가 필요해지기 전까지는 날짜 기반 릴리스 노트를 사용한다.
 
-- `YYYY.MM.DD` for operational releases.
-- `v0.x.y` only when packaging or public distribution requires it.
+- 운영 릴리스는 `YYYY.MM.DD` 형식을 사용한다.
+- 패키징 또는 공개 배포가 필요할 때만 `v0.x.y` 형식을 사용한다.
 
-## Release Checklist
+## 릴리스 체크리스트
 
-- [ ] All planned PRs are merged.
-- [ ] CI is passing on `main`.
-- [ ] Known risks are documented.
-- [ ] User-facing copy and docs are updated.
-- [ ] Notion project status is updated.
-- [ ] Rollback plan is clear.
+- [ ] 계획된 PR이 모두 merge되었다.
+- [ ] `main`에서 CI가 통과했다.
+- [ ] 알려진 위험이 문서화되었다.
+- [ ] 사용자에게 보이는 문구와 문서가 업데이트되었다.
+- [ ] Notion 프로젝트 상태가 업데이트되었다.
+- [ ] 롤백 계획이 명확하다.
 
-## Release Notes Format
+## 릴리스 노트 형식
 
 ```markdown
 ## YYYY-MM-DD
 
-### Added
+### 추가
 - 
 
-### Changed
+### 변경
 - 
 
-### Fixed
+### 수정
 - 
 
-### Known Risks
+### 알려진 위험
 - 
 ```
 
-## Hotfixes
+## 긴급 수정
 
-For urgent fixes:
+긴급 수정은 다음 흐름으로 진행한다.
 
-1. Create `fix/<issue-number>-short-name`.
-2. Keep the PR as small as possible.
-3. Require one reviewer if available.
-4. Merge after CI passes.
-5. Add a short release note and link the issue.
+1. `fix/<issue-number>-short-name` 브랜치를 만든다.
+2. PR을 가능한 한 작게 유지한다.
+3. 가능하면 리뷰어 1명의 승인을 받는다.
+4. CI 통과 후 merge한다.
+5. 짧은 릴리스 노트를 추가하고 이슈를 연결한다.

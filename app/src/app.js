@@ -1,7 +1,7 @@
 const tasks = [
-  { title: "창업 단계 진단 질문 확정", status: "진행 중", area: "Product", due: "5월 22일" },
-  { title: "체크리스트 저장 기능 설계", status: "진행 중", area: "Tech", due: "5월 27일" },
-  { title: "인터뷰 후속 질문 발송", status: "대기", area: "Business", due: "5월 21일" }
+  { title: "창업 단계 진단 질문 확정", status: "진행 중", area: "제품", due: "5월 22일" },
+  { title: "체크리스트 저장 기능 설계", status: "진행 중", area: "기술", due: "5월 27일" },
+  { title: "인터뷰 후속 질문 발송", status: "대기", area: "사업", due: "5월 21일" }
 ];
 
 const roadmap = [
@@ -34,17 +34,17 @@ function render() {
         <span>모두의 창업</span>
       </a>
       <nav>
-        <a class="active" href="#dashboard">Dashboard</a>
-        <a href="#diagnosis">Diagnosis</a>
-        <a href="#roadmap">Roadmap</a>
-        <a href="#tasks">Tasks</a>
+        <a class="active" href="#dashboard">대시보드</a>
+        <a href="#diagnosis">진단</a>
+        <a href="#roadmap">로드맵</a>
+        <a href="#tasks">작업</a>
       </nav>
     </aside>
 
     <main class="shell">
       <section class="hero" id="dashboard">
         <div>
-          <p class="eyebrow">Startup operating system</p>
+          <p class="eyebrow">창업 실행 관리 시스템</p>
           <h1>창업 준비를 진단하고, 이번 주 실행계획으로 바꿉니다.</h1>
           <p class="lead">아이디어 검증, 로드맵, 체크리스트를 한 화면에서 관리하는 MVP 첫 버전입니다.</p>
         </div>
@@ -70,7 +70,7 @@ function render() {
         <div class="panel" id="roadmap">
           <div class="section-title">
             <h2>로드맵</h2>
-            <span>4 steps</span>
+            <span>4단계</span>
           </div>
           <ol class="roadmap">
             ${roadmap.map((item) => `<li>${item}</li>`).join("")}
@@ -80,7 +80,7 @@ function render() {
         <div class="panel" id="tasks">
           <div class="section-title">
             <h2>이번 주 작업</h2>
-            <span>Live board</span>
+            <span>실시간 보드</span>
           </div>
           <div class="tasks">
             ${tasks.map(renderTask).join("")}

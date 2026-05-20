@@ -1,4 +1,4 @@
-name: CI
+name: 지속적 통합
 
 on:
   pull_request:
@@ -13,38 +13,213 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  validate:
-    name: Validate project
+  branch-name:
+    name: 브랜치 이름 확인
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: 브랜치 접두어 확인
+        env:
+          BRANCH_NAME: ${{ github.head_ref }}
+        run: |
+          case "$BRANCH_NAME" in
+            feature/*|fix/*|docs/*|chore/*) exit 0 ;;
+            *)
+              echo "브랜치는 feature/, fix/, docs/, chore/ 중 하나로 시작해야 합니다."
+              exit 1
+              ;;
+          esac
+
+  collaboration-files:
+    name: 협업 파일 확인
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: 코드 가져오기
         uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-
-      - name: Validate package manifests
-        run: |
-          node -e "JSON.parse(require('fs').readFileSync('app/package.json','utf8'))"
-
-      - name: Syntax check app
-        run: |
-          node --check app/server.mjs
-          node --check app/src/app.js
-
-      - name: Syntax check scripts
-        run: |
-          node --check make_pitch_deck.js
-          node --check validate_pitch_deck.js
-
-      - name: Check required collaboration files
+      - name: 필수 파일 확인
         shell: bash
         run: |
+          test -f AI.md
+          test -f ci-cd-rules.md
           test -f CONTRIBUTING.md
           test -f PROJECT_WORKFLOW.md
           test -f SECURITY.md
           test -f RELEASE.md
           test -f .github/pull_request_template.md
           test -f .github/CODEOWNERS
+
+  changes:
+    name: 변경 영역 확인
+    runs-on: ubuntu-latest
+    outputs:
+      web: ${{ steps.filter.outputs.web }}
+      api: ${{ steps.filter.outputs.api }}
+      db: ${{ steps.filter.outputs.db }}
+      shared: ${{ steps.filter.outputs.shared }}
+      ai: ${{ steps.filter.outputs.ai }}
+      recommender: ${{ steps.filter.outputs.recommender }}
+    steps:
+      - name: 코드 가져오기
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 변경 경로 확인
+        id: filter
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE="${{ github.event.pull_request.base.sha }}"
+            HEAD="${{ github.event.pull_request.head.sha }}"
+          else
+            BASE="${{ github.event.before }}"
+            HEAD="${{ github.sha }}"
+          fi
+
+          changed="$(git diff --name-only "$BASE" "$HEAD" || true)"
+          echo "$changed"
+
+          has_match() {
+            echo "$changed" | grep -Eq "$1"
+          }
+
+          write_flag() {
+            name="$1"
+            pattern="$2"
+            if has_match "$pattern"; then
+              echo "$name=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "$name=false" >> "$GITHUB_OUTPUT"
+            fi
+          }
+
+          write_flag web '^(apps/web/|app/|packages/shared/)'
+          write_flag api '^(apps/api/|packages/shared/|packages/ai/|packages/recommender/|infra/db/)'
+          write_flag db '^infra/db/'
+          write_flag shared '^packages/shared/'
+          write_flag ai '^packages/ai/'
+          write_flag recommender '^packages/recommender/'
+
+  web:
+    name: 웹 검사
+    runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.web == 'true' || github.event_name == 'push'
+    steps:
+      - name: 코드 가져오기
+        uses: actions/checkout@v4
+
+      - name: Node 설정
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: package manifest 확인
+        shell: bash
+        run: |
+          if [ -f apps/web/package.json ]; then node -e "JSON.parse(require('fs').readFileSync('apps/web/package.json','utf8'))"; fi
+          if [ -f app/package.json ]; then node -e "JSON.parse(require('fs').readFileSync('app/package.json','utf8'))"; fi
+
+      - name: 웹 앱 문법 확인
+        shell: bash
+        run: |
+          if [ -f app/server.mjs ]; then node --check app/server.mjs; fi
+          if [ -f app/src/app.js ]; then node --check app/src/app.js; fi
+          if [ -f apps/web/server.mjs ]; then node --check apps/web/server.mjs; fi
+          if [ -f apps/web/src/app.js ]; then node --check apps/web/src/app.js; fi
+
+      - name: 사용 가능한 웹 스크립트 실행
+        shell: bash
+        run: |
+          run_if_present() {
+            dir="$1"
+            script="$2"
+            if [ -f "$dir/package.json" ] && node -e "process.exit(require('./$dir/package.json').scripts?.['$script'] ? 0 : 1)"; then
+              npm --prefix "$dir" run "$script"
+            fi
+          }
+          run_if_present apps/web lint
+          run_if_present apps/web typecheck
+          run_if_present apps/web test
+          run_if_present apps/web build
+          run_if_present app lint
+          run_if_present app typecheck
+          run_if_present app test
+          run_if_present app build
+
+  api:
+    name: API 검사
+    runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.api == 'true' || github.event_name == 'push'
+    steps:
+      - name: 코드 가져오기
+        uses: actions/checkout@v4
+
+      - name: Node 설정
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: 사용 가능한 API 스크립트 실행
+        shell: bash
+        run: |
+          if [ ! -f apps/api/package.json ]; then
+            echo "apps/api가 아직 없으므로 API 검사를 건너뜁니다."
+            exit 0
+          fi
+          node -e "JSON.parse(require('fs').readFileSync('apps/api/package.json','utf8'))"
+          for script in lint typecheck test build; do
+            if node -e "process.exit(require('./apps/api/package.json').scripts?.['$script'] ? 0 : 1)"; then
+              npm --prefix apps/api run "$script"
+            fi
+          done
+
+  db:
+    name: DB migration 검사
+    runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.db == 'true' || github.event_name == 'push'
+    steps:
+      - name: 코드 가져오기
+        uses: actions/checkout@v4
+
+      - name: migration 파일 확인
+        shell: bash
+        run: |
+          if [ ! -d infra/db ]; then
+            echo "infra/db가 아직 없으므로 DB migration 검사를 건너뜁니다."
+            exit 0
+          fi
+          find infra/db -type f -maxdepth 3 -print
+
+  shared-packages:
+    name: 공통 패키지 검사
+    runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.shared == 'true' || needs.changes.outputs.ai == 'true' || needs.changes.outputs.recommender == 'true' || github.event_name == 'push'
+    steps:
+      - name: 코드 가져오기
+        uses: actions/checkout@v4
+
+      - name: Node 설정
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: 사용 가능한 패키지 검사 실행
+        shell: bash
+        run: |
+          for dir in packages/shared packages/ai packages/recommender; do
+            if [ ! -f "$dir/package.json" ]; then
+              echo "$dir 디렉터리가 아직 없으므로 건너뜁니다."
+              continue
+            fi
+            node -e "JSON.parse(require('fs').readFileSync('$dir/package.json','utf8'))"
+            for script in lint typecheck test build; do
+              if node -e "process.exit(require('./$dir/package.json').scripts?.['$script'] ? 0 : 1)"; then
+                npm --prefix "$dir" run "$script"
+              fi
+            done
+          done

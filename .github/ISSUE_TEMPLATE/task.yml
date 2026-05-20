@@ -1,20 +1,20 @@
-name: Task
-description: Track implementation, research, or operational work.
-title: "[Task]: "
+name: 작업
+description: 구현, 조사, 운영 작업을 추적합니다.
+title: "[작업]: "
 labels: ["type:task", "status:triage"]
 body:
   - type: textarea
     id: goal
     attributes:
-      label: Goal
-      description: What outcome should this task produce?
+      label: 목표
+      description: 이 작업으로 어떤 결과를 만들어야 하나요?
     validations:
       required: true
   - type: textarea
     id: checklist
     attributes:
-      label: Checklist
-      description: Break the work into reviewable steps.
+      label: 체크리스트
+      description: 리뷰 가능한 단계로 나눠 주세요.
       placeholder: |
         - [ ] ...
         - [ ] ...
@@ -23,15 +23,15 @@ body:
   - type: textarea
     id: context
     attributes:
-      label: Context
-      description: Link Notion pages, designs, meetings, or related issues.
+      label: 맥락
+      description: 관련 Notion 페이지, 디자인, 회의록, 이슈를 연결해 주세요.
     validations:
       required: false
   - type: input
     id: due
     attributes:
-      label: Target date
-      description: Optional target date.
+      label: 목표 날짜
+      description: 선택 사항입니다.
       placeholder: YYYY-MM-DD
     validations:
       required: false

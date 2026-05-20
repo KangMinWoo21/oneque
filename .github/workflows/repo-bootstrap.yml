@@ -1,4 +1,4 @@
-name: Repository Bootstrap
+name: 저장소 부트스트랩
 
 on:
   workflow_dispatch:
@@ -15,36 +15,41 @@ permissions:
 
 jobs:
   bootstrap:
-    name: Sync labels and bootstrap issues
+    name: 라벨과 초기 이슈 동기화
     runs-on: ubuntu-latest
     steps:
-      - name: Sync labels and issues
+      - name: 라벨과 이슈 동기화
         uses: actions/github-script@v7
         with:
           script: |
             const labels = [
-              ["type:bug", "d73a4a", "Defect or regression."],
-              ["type:feature", "0e8a16", "User-facing improvement."],
-              ["type:task", "1d76db", "Implementation, research, or operational work."],
-              ["type:docs", "0075ca", "Documentation or content work."],
-              ["type:chore", "cfd3d7", "Maintenance and housekeeping."],
-              ["priority:high", "b60205", "Urgent or strategically important."],
-              ["priority:medium", "fbca04", "Normal priority."],
-              ["priority:low", "0e8a16", "Low priority."],
-              ["area:app", "5319e7", "App code and user experience."],
-              ["area:docs", "0075ca", "Documentation and content."],
-              ["area:ops", "6f42c1", "Workflow, automation, and repository operations."],
-              ["area:design", "cc317c", "UX, UI, and design system work."],
-              ["area:growth", "fbca04", "Business, launch, and growth work."],
-              ["status:triage", "ededed", "Needs clarification or prioritization."],
-              ["status:ready", "c2e0c6", "Ready to start."],
-              ["status:in-progress", "bfdadc", "Actively being worked."],
-              ["status:review", "d4c5f9", "PR open or review needed."],
-              ["status:blocked", "e99695", "Blocked by a dependency, decision, or missing input."],
-              ["risk:high", "b60205", "High-risk change."],
-              ["risk:medium", "fbca04", "Medium-risk change."],
-              ["risk:low", "0e8a16", "Low-risk change."],
-              ["dependencies", "0366d6", "Dependency updates."]
+              ["type:bug", "d73a4a", "결함 또는 회귀입니다."],
+              ["type:feature", "0e8a16", "사용자에게 보이는 개선입니다."],
+              ["type:task", "1d76db", "구현, 조사, 운영 작업입니다."],
+              ["type:docs", "0075ca", "문서 또는 콘텐츠 작업입니다."],
+              ["type:chore", "cfd3d7", "유지보수와 정리 작업입니다."],
+              ["priority:high", "b60205", "긴급하거나 전략적으로 중요합니다."],
+              ["priority:medium", "fbca04", "일반 우선순위입니다."],
+              ["priority:low", "0e8a16", "낮은 우선순위입니다."],
+              ["area:web", "5319e7", "프론트엔드 웹 앱과 사용자 경험입니다."],
+              ["area:api", "0052cc", "백엔드 API, 인증, 계약, LLM 연동입니다."],
+              ["area:db", "5319e7", "DB schema, migration, seed 데이터입니다."],
+              ["area:ai", "8a63d2", "LLM 프롬프트, 생성 결과, AI helper입니다."],
+              ["area:recommender", "fbca04", "매칭, 점수 계산, 예상 성과 로직입니다."],
+              ["area:shared", "bfdadc", "공통 타입, 상수, validation schema입니다."],
+              ["area:docs", "0075ca", "문서와 콘텐츠입니다."],
+              ["area:ops", "6f42c1", "워크플로, 자동화, 저장소 운영입니다."],
+              ["area:design", "cc317c", "UX, UI, 디자인 시스템 작업입니다."],
+              ["area:growth", "fbca04", "사업, 출시, 성장 관련 작업입니다."],
+              ["status:triage", "ededed", "정리 또는 우선순위 판단이 필요합니다."],
+              ["status:ready", "c2e0c6", "시작할 준비가 되었습니다."],
+              ["status:in-progress", "bfdadc", "현재 작업 중입니다."],
+              ["status:review", "d4c5f9", "PR이 열렸거나 리뷰가 필요합니다."],
+              ["status:blocked", "e99695", "의존성, 결정, 입력 부족으로 막혀 있습니다."],
+              ["risk:high", "b60205", "위험도가 높은 변경입니다."],
+              ["risk:medium", "fbca04", "위험도가 중간인 변경입니다."],
+              ["risk:low", "0e8a16", "위험도가 낮은 변경입니다."],
+              ["dependencies", "0366d6", "의존성 업데이트입니다."]
             ];
 
             for (const [name, color, description] of labels) {
@@ -55,7 +60,7 @@ jobs:
                   color,
                   description
                 });
-                core.info(`Created label: ${name}`);
+                core.info(`라벨 생성: ${name}`);
               } catch (error) {
                 if (error.status !== 422) throw error;
                 await github.rest.issues.updateLabel({
@@ -65,7 +70,7 @@ jobs:
                   color,
                   description
                 });
-                core.info(`Updated label: ${name}`);
+                core.info(`라벨 업데이트: ${name}`);
               }
             }
 
@@ -82,85 +87,90 @@ jobs:
 
             const issues = [
               {
-                title: "Set up branch protection for main",
+                title: "main 브랜치 보호 설정",
                 labels: ["type:task", "area:ops", "priority:high", "status:ready"],
-                body: `## Goal
-Protect \`main\` so collaboration follows the workflow in \`PROJECT_WORKFLOW.md\`.
+                body: `## 목표
+\`PROJECT_WORKFLOW.md\`의 협업 흐름을 따르도록 \`main\` 브랜치를 보호한다.
 
-## Checklist
-- [ ] Require PR before merge
-- [ ] Require at least 1 approval
-- [ ] Dismiss stale approvals when new commits are pushed
-- [ ] Require conversation resolution
-- [ ] Require CI check \`Validate project\`
-- [ ] Block force pushes
-- [ ] Block branch deletion
-- [ ] Prefer squash merge
+## 체크리스트
+- [ ] merge 전에 PR을 요구한다.
+- [ ] 최소 1명의 승인을 요구한다.
+- [ ] 새 커밋이 올라오면 기존 승인을 만료한다.
+- [ ] 대화 해결을 요구한다.
+- [ ] CI 체크 \`브랜치 이름 확인\`을 요구한다.
+- [ ] CI 체크 \`협업 파일 확인\`을 요구한다.
+- [ ] CI 체크 \`웹 검사\`를 요구한다.
+- [ ] CI 체크 \`API 검사\`를 요구한다.
+- [ ] CI 체크 \`DB migration 검사\`를 요구한다.
+- [ ] CI 체크 \`공통 패키지 검사\`를 요구한다.
+- [ ] 강제 push를 막는다.
+- [ ] 브랜치 삭제를 막는다.
+- [ ] squash merge를 기본으로 사용한다.
 
-## Context
-See \`docs/GITHUB_SETUP.md\` section 5.`
+## 참고
+\`docs/GITHUB_SETUP.md\`의 5번 섹션을 참고한다.`
               },
               {
-                title: "Create GitHub project views",
+                title: "GitHub Project 뷰 생성",
                 labels: ["type:task", "area:ops", "priority:medium", "status:ready"],
-                body: `## Goal
-Create GitHub Project views that match \`PROJECT_WORKFLOW.md\`.
+                body: `## 목표
+\`PROJECT_WORKFLOW.md\`에 맞는 GitHub Project 뷰를 만든다.
 
-## Checklist
-- [ ] Board by status
-- [ ] Table by priority
-- [ ] Roadmap by target date
-- [ ] Saved filter: blocked work
-- [ ] Saved filter: PRs needing review
-- [ ] Fields: Status, Priority, Area, Owner, Target date, Risk, Notion link`
+## 체크리스트
+- [ ] 상태별 보드
+- [ ] 우선순위별 테이블
+- [ ] 목표 날짜별 로드맵
+- [ ] 저장 필터: 막힌 작업
+- [ ] 저장 필터: 리뷰 필요한 PR
+- [ ] 필드: Status, Priority, Area, Owner, Target date, Risk, Notion link`
               },
               {
-                title: "Replace CODEOWNERS placeholders",
+                title: "CODEOWNERS placeholder 교체",
                 labels: ["type:task", "area:ops", "priority:high", "status:ready"],
-                body: `## Goal
-Replace placeholder owners in \`.github/CODEOWNERS\`.
+                body: `## 목표
+\`.github/CODEOWNERS\`의 placeholder owner를 실제 팀 또는 사용자로 바꾼다.
 
-## Checklist
-- [ ] Replace \`@your-org/maintainers\`
-- [ ] Replace \`@your-org/product\`
-- [ ] Replace \`@your-org/engineering\`
-- [ ] Confirm review requests work on a test PR`
+## 체크리스트
+- [ ] \`@your-org/maintainers\`를 바꾼다.
+- [ ] \`@your-org/product\`를 바꾼다.
+- [ ] \`@your-org/engineering\`을 바꾼다.
+- [ ] 테스트 PR에서 리뷰 요청이 정상 동작하는지 확인한다.`
               },
               {
-                title: "Connect Notion Request Inbox to GitHub issues",
+                title: "Notion 요청함과 GitHub 이슈 연결",
                 labels: ["type:task", "area:ops", "priority:medium", "status:triage"],
-                body: `## Goal
-Define when a Notion Request Inbox item becomes a GitHub issue.
+                body: `## 목표
+Notion 요청함의 항목이 언제 GitHub 이슈가 되는지 정한다.
 
-## Checklist
-- [ ] Pick the owner who triages Notion Request Inbox
-- [ ] Decide which Notion fields map to GitHub issue fields
-- [ ] Link GitHub issues back to Notion when work starts
-- [ ] Close or archive Notion requests after GitHub issue completion`
+## 체크리스트
+- [ ] Notion 요청함을 정리할 담당자를 정한다.
+- [ ] Notion 필드와 GitHub 이슈 필드의 매핑을 정한다.
+- [ ] 작업이 시작되면 GitHub 이슈를 Notion에 연결한다.
+- [ ] GitHub 이슈가 완료되면 Notion 요청을 닫거나 보관한다.`
               },
               {
-                title: "Ship the first product slice through the new workflow",
-                labels: ["type:feature", "area:app", "priority:high", "status:triage"],
-                body: `## Goal
-Choose and ship the first user-facing slice using the issue -> branch -> PR -> CI -> review flow.
+                title: "첫 제품 단위 배포",
+                labels: ["type:feature", "area:web", "priority:high", "status:triage"],
+                body: `## 목표
+새로운 이슈 -> 브랜치 -> PR -> CI -> 리뷰 흐름으로 처음 배포할 사용자에게 보이는 기능 단위를 고른다.
 
-## Checklist
-- [ ] Create feature issue from template
-- [ ] Write acceptance criteria
-- [ ] Create branch from issue
-- [ ] Open draft PR early
-- [ ] Merge after CI and review`
+## 체크리스트
+- [ ] 기능 이슈를 템플릿으로 만든다.
+- [ ] 수용 기준을 작성한다.
+- [ ] 이슈 기준 브랜치를 만든다.
+- [ ] draft PR을 일찍 연다.
+- [ ] CI와 리뷰 후 merge한다.`
               }
             ];
 
             for (const issue of issues) {
               if (existingTitles.has(issue.title)) {
-                core.info(`Issue already exists: ${issue.title}`);
+                core.info(`이미 존재하는 이슈: ${issue.title}`);
                 continue;
               }
               await github.rest.issues.create({
                 ...context.repo,
                 ...issue
               });
-              core.info(`Created issue: ${issue.title}`);
+              core.info(`이슈 생성: ${issue.title}`);
             }

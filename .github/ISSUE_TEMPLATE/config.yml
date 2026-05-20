@@ -1,5 +1,5 @@
 blank_issues_enabled: false
 contact_links:
-  - name: Team Dashboard
+  - name: 팀 대시보드
     url: https://www.notion.so/365511b965948081bbb2fe860d7ec912
-    about: Use Notion for planning context, meeting notes, and decisions.
+    about: 계획 맥락, 회의록, 결정 사항은 Notion에서 관리합니다.

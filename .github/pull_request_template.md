@@ -1,32 +1,30 @@
-## Summary
+## 작업 내용
 
 - 
 
-## Why
+## 확인 방법
 
 - 
 
-## Scope
+## 영향 범위
 
-- [ ] App/user-facing behavior
-- [ ] Docs/content
-- [ ] Tooling/CI
-- [ ] Data/configuration
+- [ ] web (`apps/web`, 현재 `app`)
+- [ ] api (`apps/api`)
+- [ ] db (`infra/db`)
+- [ ] ai (`packages/ai`)
+- [ ] recommender (`packages/recommender`)
+- [ ] shared (`packages/shared`)
+- [ ] docs/ops
 
-## Validation
+## 리뷰 주의 사항
 
-- [ ] Ran local checks
-- [ ] Checked UI manually, if applicable
-- [ ] Added or updated tests, if applicable
-- [ ] Confirmed docs/Notion/GitHub issue links are current
+- 위험도: 낮음 / 보통 / 높음
+- DB schema 또는 운영 DB migration 포함 여부: 없음 / 있음
+- 인증, 권한, 결제, 비밀값 처리 영향: 없음 / 있음
+- 추천 점수 계산 또는 AI 생성 결과 영향: 없음 / 있음
 
-## Review Notes
+## 참고 사항
 
-- Risk level: Low / Medium / High
-- Rollback plan:
-- Related issue:
-- Related Notion page:
-
-## Screenshots or Evidence
-
-Add screenshots, terminal output, or before/after notes when useful.
+- 관련 이슈:
+- 롤백 방법:
+- 스크린샷 또는 증거:

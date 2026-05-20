@@ -1,10 +1,10 @@
-# Repository settings as code.
-# This file is consumed by apps such as Probot Settings when installed.
-# Without that app, treat it as the canonical settings checklist.
+# 저장소 설정을 코드로 관리하기 위한 파일이다.
+# Probot Settings 같은 앱을 설치하면 이 파일을 읽어 설정을 적용할 수 있다.
+# 해당 앱이 없다면 저장소 설정 체크리스트로 사용한다.
 
 repository:
   name: oneque
-  description: Collaboration and product workspace for OneQue.
+  description: 청주 소상공인을 위한 광고 대행 AX 플랫폼
   private: false
   has_issues: true
   has_projects: true
@@ -14,7 +14,7 @@ repository:
   allow_squash_merge: true
   allow_merge_commit: false
   allow_rebase_merge: false
-  allow_auto_merge: true
+  allow_auto_merge: false
   delete_branch_on_merge: true
 
 branches:
@@ -27,7 +27,12 @@ branches:
       required_status_checks:
         strict: true
         contexts:
-          - Validate project
+          - 브랜치 이름 확인
+          - 협업 파일 확인
+          - 웹 검사
+          - API 검사
+          - DB migration 검사
+          - 공통 패키지 검사
       enforce_admins: false
       required_linear_history: false
       allow_force_pushes: false

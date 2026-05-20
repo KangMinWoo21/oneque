@@ -1,32 +1,32 @@
-# Issue Triage
+# 이슈 정리 가이드
 
-## Triage Checklist
+## 정리 체크리스트
 
-- [ ] Is the problem or goal clear?
-- [ ] Is the issue actionable?
-- [ ] Is the area labeled?
-- [ ] Is priority clear?
-- [ ] Is there an owner or next step?
-- [ ] Is relevant Notion context linked?
+- [ ] 문제 또는 목표가 명확한가?
+- [ ] 바로 실행 가능한 이슈인가?
+- [ ] 영역 라벨이 붙어 있는가?
+- [ ] 우선순위가 명확한가?
+- [ ] 담당자 또는 다음 단계가 정해졌는가?
+- [ ] 관련 Notion 맥락이 연결되어 있는가?
 
-## Priority Rules
+## 우선순위 기준
 
-- High: blocks launch, breaks a critical workflow, or creates legal/security/data risk.
-- Medium: important product or operational improvement.
-- Low: polish, cleanup, or nice-to-have.
+- 높음: 출시를 막거나, 핵심 흐름을 깨뜨리거나, 법률/보안/데이터 위험을 만든다.
+- 보통: 중요한 제품 개선 또는 운영 개선이다.
+- 낮음: 다듬기, 정리, 있으면 좋은 개선이다.
 
-## Status Rules
+## 상태 기준
 
-- `status:triage`: not ready yet.
-- `status:ready`: clear enough to start.
-- `status:in-progress`: assigned and active.
-- `status:review`: PR open or review needed.
-- `status:blocked`: waiting on external input.
+- `status:triage`: 아직 시작할 준비가 되지 않았다.
+- `status:ready`: 시작할 만큼 명확하다.
+- `status:in-progress`: 담당자가 있고 작업 중이다.
+- `status:review`: PR이 열렸거나 리뷰가 필요하다.
+- `status:blocked`: 외부 입력을 기다리고 있다.
 
-## Closing Rules
+## 종료 기준
 
-Close an issue when:
+다음 경우 이슈를 닫는다.
 
-- The linked PR is merged.
-- The work is intentionally dropped with `not planned`.
-- A duplicate issue already tracks the work.
+- 연결된 PR이 merge되었다.
+- 의도적으로 진행하지 않기로 결정하고 `not planned`로 정리했다.
+- 같은 작업을 추적하는 중복 이슈가 있다.

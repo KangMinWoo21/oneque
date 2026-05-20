@@ -1,39 +1,39 @@
-# Governance
+# 거버넌스
 
-## Roles
+## 역할
 
-- Maintainer: owns repository settings, releases, branch protection, and final merge decisions.
-- Reviewer: checks correctness, risk, and maintainability.
-- Contributor: implements scoped issues and keeps PRs reviewable.
-- Product owner: clarifies priorities, acceptance criteria, and user impact.
+- 관리자: 저장소 설정, 릴리스, 브랜치 보호, 최종 merge 결정을 책임진다.
+- 리뷰어: 정확성, 위험도, 유지보수 가능성을 확인한다.
+- 기여자: 범위가 정해진 이슈를 구현하고 PR을 리뷰 가능한 크기로 유지한다.
+- 제품 담당자: 우선순위, 수용 기준, 사용자 영향을 명확히 한다.
 
-## Decision Making
+## 의사결정
 
-Use Notion Decision Log for decisions that affect product direction, data model, architecture, launch, or team process.
+제품 방향, 데이터 모델, 아키텍처, 출시, 팀 프로세스에 영향을 주는 결정은 Notion Decision Log에 기록한다.
 
-Each decision should include:
+각 결정에는 다음을 포함한다.
 
-- Decision
-- Context
-- Owner
-- Impact
-- Follow-up
+- 결정 내용
+- 맥락
+- 담당자
+- 영향
+- 후속 작업
 
-## Merge Policy
+## merge 정책
 
-Default merge method: squash merge.
+기본 merge 방식은 squash merge다.
 
-Merge only when:
+다음 조건을 만족할 때만 merge한다.
 
-- CI passes.
-- Required review is complete.
-- Conversations are resolved.
-- The PR description includes validation.
+- CI가 통과했다.
+- 필요한 리뷰가 완료되었다.
+- 대화가 해결되었다.
+- PR 설명에 확인 방법이 포함되어 있다.
 
-## Escalation
+## 막힌 작업 처리
 
-Use `status:blocked` when work cannot continue. The issue or PR should explain:
+작업을 계속할 수 없을 때는 `status:blocked`를 사용한다. 이슈 또는 PR에는 다음을 적는다.
 
-- What is blocked.
-- Who can unblock it.
-- What decision or resource is needed.
+- 무엇이 막혀 있는지
+- 누가 해결할 수 있는지
+- 어떤 결정이나 자료가 필요한지
