@@ -1,0 +1,166 @@
+name: Repository Bootstrap
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/repo-bootstrap.yml"
+      - ".github/labels.yml"
+      - "docs/BOOTSTRAP_ISSUES.md"
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  bootstrap:
+    name: Sync labels and bootstrap issues
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sync labels and issues
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const labels = [
+              ["type:bug", "d73a4a", "Defect or regression."],
+              ["type:feature", "0e8a16", "User-facing improvement."],
+              ["type:task", "1d76db", "Implementation, research, or operational work."],
+              ["type:docs", "0075ca", "Documentation or content work."],
+              ["type:chore", "cfd3d7", "Maintenance and housekeeping."],
+              ["priority:high", "b60205", "Urgent or strategically important."],
+              ["priority:medium", "fbca04", "Normal priority."],
+              ["priority:low", "0e8a16", "Low priority."],
+              ["area:app", "5319e7", "App code and user experience."],
+              ["area:docs", "0075ca", "Documentation and content."],
+              ["area:ops", "6f42c1", "Workflow, automation, and repository operations."],
+              ["area:design", "cc317c", "UX, UI, and design system work."],
+              ["area:growth", "fbca04", "Business, launch, and growth work."],
+              ["status:triage", "ededed", "Needs clarification or prioritization."],
+              ["status:ready", "c2e0c6", "Ready to start."],
+              ["status:in-progress", "bfdadc", "Actively being worked."],
+              ["status:review", "d4c5f9", "PR open or review needed."],
+              ["status:blocked", "e99695", "Blocked by a dependency, decision, or missing input."],
+              ["risk:high", "b60205", "High-risk change."],
+              ["risk:medium", "fbca04", "Medium-risk change."],
+              ["risk:low", "0e8a16", "Low-risk change."],
+              ["dependencies", "0366d6", "Dependency updates."]
+            ];
+
+            for (const [name, color, description] of labels) {
+              try {
+                await github.rest.issues.createLabel({
+                  ...context.repo,
+                  name,
+                  color,
+                  description
+                });
+                core.info(`Created label: ${name}`);
+              } catch (error) {
+                if (error.status !== 422) throw error;
+                await github.rest.issues.updateLabel({
+                  ...context.repo,
+                  name,
+                  new_name: name,
+                  color,
+                  description
+                });
+                core.info(`Updated label: ${name}`);
+              }
+            }
+
+            const existingIssues = await github.paginate(github.rest.issues.listForRepo, {
+              ...context.repo,
+              state: "all",
+              per_page: 100
+            });
+            const existingTitles = new Set(
+              existingIssues
+                .filter((issue) => !issue.pull_request)
+                .map((issue) => issue.title)
+            );
+
+            const issues = [
+              {
+                title: "Set up branch protection for main",
+                labels: ["type:task", "area:ops", "priority:high", "status:ready"],
+                body: `## Goal
+Protect \`main\` so collaboration follows the workflow in \`PROJECT_WORKFLOW.md\`.
+
+## Checklist
+- [ ] Require PR before merge
+- [ ] Require at least 1 approval
+- [ ] Dismiss stale approvals when new commits are pushed
+- [ ] Require conversation resolution
+- [ ] Require CI check \`Validate project\`
+- [ ] Block force pushes
+- [ ] Block branch deletion
+- [ ] Prefer squash merge
+
+## Context
+See \`docs/GITHUB_SETUP.md\` section 5.`
+              },
+              {
+                title: "Create GitHub project views",
+                labels: ["type:task", "area:ops", "priority:medium", "status:ready"],
+                body: `## Goal
+Create GitHub Project views that match \`PROJECT_WORKFLOW.md\`.
+
+## Checklist
+- [ ] Board by status
+- [ ] Table by priority
+- [ ] Roadmap by target date
+- [ ] Saved filter: blocked work
+- [ ] Saved filter: PRs needing review
+- [ ] Fields: Status, Priority, Area, Owner, Target date, Risk, Notion link`
+              },
+              {
+                title: "Replace CODEOWNERS placeholders",
+                labels: ["type:task", "area:ops", "priority:high", "status:ready"],
+                body: `## Goal
+Replace placeholder owners in \`.github/CODEOWNERS\`.
+
+## Checklist
+- [ ] Replace \`@your-org/maintainers\`
+- [ ] Replace \`@your-org/product\`
+- [ ] Replace \`@your-org/engineering\`
+- [ ] Confirm review requests work on a test PR`
+              },
+              {
+                title: "Connect Notion Request Inbox to GitHub issues",
+                labels: ["type:task", "area:ops", "priority:medium", "status:triage"],
+                body: `## Goal
+Define when a Notion Request Inbox item becomes a GitHub issue.
+
+## Checklist
+- [ ] Pick the owner who triages Notion Request Inbox
+- [ ] Decide which Notion fields map to GitHub issue fields
+- [ ] Link GitHub issues back to Notion when work starts
+- [ ] Close or archive Notion requests after GitHub issue completion`
+              },
+              {
+                title: "Ship the first product slice through the new workflow",
+                labels: ["type:feature", "area:app", "priority:high", "status:triage"],
+                body: `## Goal
+Choose and ship the first user-facing slice using the issue -> branch -> PR -> CI -> review flow.
+
+## Checklist
+- [ ] Create feature issue from template
+- [ ] Write acceptance criteria
+- [ ] Create branch from issue
+- [ ] Open draft PR early
+- [ ] Merge after CI and review`
+              }
+            ];
+
+            for (const issue of issues) {
+              if (existingTitles.has(issue.title)) {
+                core.info(`Issue already exists: ${issue.title}`);
+                continue;
+              }
+              await github.rest.issues.create({
+                ...context.repo,
+                ...issue
+              });
+              core.info(`Created issue: ${issue.title}`);
+            }
